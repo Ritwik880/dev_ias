@@ -1,5 +1,4 @@
 import React from 'react'
-// import { COURSES as data } from '../constants/data';
 import { useNavigate } from 'react-router-dom';
 const Courses = ({data}) => {
 

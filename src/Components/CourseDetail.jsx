@@ -1,14 +1,12 @@
 import React from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Tabs from './Tabs';
 import Videos from './Sub_Courses/Videos';
 import Main_Tests from './Sub_Courses/Main_Tests';
 import E_Materials from './Sub_Courses/E_Materials';
 const CourseDetail = () => {
-    const courseId = useParams();
     const location = useLocation()
     const course = location.state?.course;
-    console.log(course.id);
     
     const tabsData = [
         {
@@ -17,11 +15,11 @@ const CourseDetail = () => {
         },
         {
             label: 'Main Tests',
-            content: <Main_Tests id={course.id}/>, // Replace with actual content
+            content: <Main_Tests/>, // Replace with actual content
         },
         {
             label: 'E-Materials',
-            content: <E_Materials id={course.id}/>, // Replace with actual content
+            content: <E_Materials/>, // Replace with actual content
         },
         {
             label: 'Mentor Box',

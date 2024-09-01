@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Main_Tests = ({id}) => {
+const Main_Tests = () => {
     return (
         <>
             <ul className="mains_test_bx mt-2">
