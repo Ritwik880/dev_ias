@@ -11,7 +11,7 @@ const CourseDetail = () => {
     const tabsData = [
         {
             label: 'Videos',
-            content: <Videos id={course.id}/>, // Replace with actual content
+            content: <Videos id={course.id ? course.id : 1}/>, // Replace with actual content
         },
         {
             label: 'Main Tests',
