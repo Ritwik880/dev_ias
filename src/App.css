@@ -2,6 +2,30 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  /* overflow-x: hidden; */
+}
+
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.navbar {
+  background-color: rgb(59, 59, 152);
+  height: 80px;
+}
+
+.navbar .nav-item .nav-link,
+.navbar .navbar-brand {
+  color: #fff;
+  font-size: 21px;
+}
+
+.common-button {
+  background: rgb(179, 57, 57);
+  color: #fff;
 }
 
 .courses-section {
@@ -9,6 +33,7 @@
   justify-content: center;
   align-items: flex-start;
   padding-top: 50px;
+  height: 90vh;
 }
 
 .course-header {
@@ -30,7 +55,7 @@
   padding: 30px 10px;
 }
 
-.card-img-top {
+.card-logo {
   width: 100px;
   object-fit: cover;
   margin: auto;
@@ -77,7 +102,107 @@
   text-decoration: none;
 }
 
+.colFluidPadding {
+  height: 100%;
+}
+
+.stiker {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.stiker .stickerImage {
+  width: 100%;
+  height: 132px;
+  /* max-width: 100%; */
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
+.about-heading {
+  color: #1F1E1E;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 53px;
+  text-align: center;
+}
+
+.aboutcoaching {
+  padding: 15px 0px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.course_btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scheduled-classes {
+  height: 350px;
+}
+
+.eachSubTitle {
+  font-weight: 700;
+  color: #2B2828;
+  font-size: 18px;
+  line-height: 27px;
+  height: 50px;
+}
+
+.eachBatchStart {
+  color: #04529D;
+  font-weight: bold;
+}
+
+.eachDate {
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.scheduled-card {
+  padding: 15px 15px 0 15px;
+}
+
+.toppers_ad_mobile {
+  display: none;
+}
+
+.toppers_ad_pc {
+  display: block;
+}
+
+.container-ias {
+  padding: 10px 0 50px 0;
+}
+
+@media screen and (max-width: 992px) {
+  .toppers_ad_pc {
+    display: none;
+  }
+
+  .toppers_ad_mobile {
+    display: block;
+  }
+}
+
 @media (max-width: 767px) {
+  .navbar {
+    height: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
   .course-heading {
     font-size: 21px;
   }
@@ -99,12 +224,47 @@
     font-size: 12px;
     font-weight: 600;
   }
-  .video-title{
+
+  .video-title {
     font-size: 17px;
   }
 
   .e-material {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .toppers_ad_mobile img {
+    width: 100%;
+  }
+
+  .colFluidPadding {
+    margin-top: 20px;
+  }
+
+  .scheduled-classes {
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navbar {
+    height: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  .colFluidPadding {
+    margin-top: 10px;
+  }
+
+  .stiker .stickerImage {
+    width: inherit;
+  }
+  .toppers_ad_mobile img{
+    width: 100%;
+  }
+  .scheduled-classes{
+    height: auto;
+    margin-bottom: 15px;
   }
 }
