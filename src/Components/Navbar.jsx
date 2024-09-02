@@ -11,19 +11,19 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link active" href="/">Home</a>
+                            <a className="nav-link active" href="#/">Home</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/dev_ias/">About Us</a>
+                            <a className="nav-link" href="#/">About Us</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/dev_ias/courses">Courses</a>
+                            <a className="nav-link" href="#/courses">Courses</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/dev_ias/">Services</a>
+                            <a className="nav-link" href="#/">Services</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/dev_ias/">Contact Us</a>
+                            <a className="nav-link" href="#/">Contact Us</a>
                         </li>
                     </ul>
                     <button className="btn btn-danger mx-2" type="submit">Login</button>

@@ -58,12 +58,12 @@ const Home = () => {
                     <p className="aboutcoaching">
                         We at GS SCORE provide <b>IAS coaching in Delhi</b>. We provide a <a href="https://iasscore.in/upsc-courses/ias-foundation" target="_blank"><b>1 Year and 2 Year UPSC Classroom Foundation course</b></a>. This <b>Classroom course</b> is a mix of informative and interactive classroom lectures, comprehensive study material and Test series in line with the demand of the exam. We cater to all the major <a href="https://iasscore.in/upsc-courses/optional" target="_blank"><b>Optional Subjects</b></a> in <b>online and offline</b> mode. Modular Courses have always been our strength especially in <a href="https://iasscore.in/upsc-courses/ethics-essay-class" target="_blank"><b>GS Paper IV and Essay Classes</b></a>. To provide all round development we provide <a href="https://iasscore.in/upsc-courses/tests" target="_blank"><b>Prelims, Mains and Optional Test series.</b></a>
                     </p>
-                    <div class="container-ias">
-                        <div class="text-center toppers_ad_pc">
-                            <img src="https://uploads.iasscore.in/banner/1717667482-SIDDHARTHA-SRIVASTAVA_930X180.png.webp" class="img-fluid" />
+                    <div className="container-ias">
+                        <div className="text-center toppers_ad_pc">
+                            <img src="https://uploads.iasscore.in/banner/1717667482-SIDDHARTHA-SRIVASTAVA_930X180.png.webp" className="img-fluid" />
                         </div>
-                        <div class="text-center toppers_ad_mobile">
-                            <img src="https://uploads.iasscore.in/banner/1716369948-TOPPERS_335X272_G.-Mobile.webp	" class="img-fluid" />
+                        <div className="text-center toppers_ad_mobile">
+                            <img src="https://uploads.iasscore.in/banner/1716369948-TOPPERS_335X272_G.-Mobile.webp	" className="img-fluid" />
                         </div>
                     </div>
                     <div className='row'>
