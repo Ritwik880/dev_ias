@@ -4,6 +4,7 @@ import Tabs from './Tabs';
 import Videos from './Sub_Courses/Videos';
 import Main_Tests from './Sub_Courses/Main_Tests';
 import E_Materials from './Sub_Courses/E_Materials';
+import { Link } from 'react-router-dom';
 const CourseDetail = () => {
     const location = useLocation()
     const course = location.state?.course;
@@ -37,8 +38,8 @@ const CourseDetail = () => {
                     </h2>
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a href="#/courses">My Courses</a></li>
-                            <li className="breadcrumb-item"><a href="">{course.title}</a></li>
+                            <li className="breadcrumb-item"><Link to="/courses">My Courses</Link></li>
+                            <li className="breadcrumb-item"><Link to="">{course.title}</Link></li>
                         </ol>
                     </nav>
                 </div>

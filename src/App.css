@@ -101,7 +101,11 @@
   text-align: center;
   text-decoration: none;
 }
-
+.username{
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+}
 .colFluidPadding {
   height: 100%;
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 
 //components
+import Home from './Components/Home'
+import Footer from './Components/Footer'
 import Courses from './Components/Courses'
 import Navbar from './Components/Navbar'
 import CourseDetail from './Components/CourseDetail'
@@ -15,18 +17,19 @@ import './Footer.css'
 
 //data
 import { COURSES as data } from './constants/data'
-import Home from './Components/Home'
-import Footer from './Components/Footer'
+import PrivateRoute from './Components/PrivateRoute'
 const App = () => {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path="/courses" element={<Courses data={data}/>} />
-        <Route path="/courses/:courseId" element={<CourseDetail data={data}/>} />
+        <Route path='/' element={<Home />} />
+        <Route path='/dashboard' element={<PrivateRoute />}>
+          <Route path='courses' element={<Courses data={data} />} />
+          <Route path="courses/:courseId" element={<CourseDetail data={data} />} />
+        </Route>
       </Routes>
-      <Footer/>
+      <Footer />
     </>
   )
 }
