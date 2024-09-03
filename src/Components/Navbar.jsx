@@ -1,17 +1,29 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Login from './Login';
 import Signup from './Signup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
 const Navbar = () => {
-    const [user, setUser] = useState(null);
+    const navigate = useNavigate()
+    const [login, setLogin] = useState(false)
+    const [user, setUser] = useState(undefined);
+
+    useEffect(() => {
+      setLogin(isLoggedIn());
+      setUser(getCurrentUserDetail())
+    }, [login])
+    
 
     const handleLogin = (userData) => {
         setUser(userData);
     };
 
     const handleLogout = () => {
-        setUser(null);
-        // localStorage.removeItem('user');
+        // setUser(null);
+        doLogout(()=>{
+            setLogin(false);
+            navigate('/')
+        })
     };
     return (
         <nav className="navbar navbar-expand-lg">
@@ -39,7 +51,7 @@ const Navbar = () => {
                         </li>
                     </ul>
                     <div>
-                        {user ? (
+                        {login ? (
                             <>
                                 <span className='username'>Welcome, {user.name}!</span>
                                 <button className="btn btn-danger mx-2" onClick={handleLogout}>Logout</button>
