@@ -1,65 +1,88 @@
-import React, { useState, useContext } from 'react';
-// import { ModalContext } from '../context/ModalContext';
+import React, { useState } from 'react';
 import { doLogin } from '../auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
-    // const {isLoginModalOpen, hideLoginModal} = useContext(ModalContext)
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(email.trim() == '' || password.trim() == ''){
+        // Validate input fields
+        if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
             toast.error('Please fill in all fields');
-            return
+            return;
         }
 
-        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const userData = {
+            name: name,
+            email: email,
+            password: password,
+        };
 
-        if (storedUser && storedUser.email === email && storedUser.password === password) {
-            alert('Login successful!');
-            doLogin(storedUser, ()=>{
-                console.log('data is saved to localstorage');
-                
-            })
-            onLogin(storedUser);
+        // Show a loading toast while the login process is ongoing
+        const toastId = toast.loading('Logging in...');
 
-            const modal = document.getElementById('exampleModal');
+        // Perform login
+        doLogin(userData, () => {
+            // Store user data in localStorage
+            localStorage.setItem('user', JSON.stringify(userData));
+
+            // Update toast message on success
+            toast.update(toastId, {
+                render: 'Login successful!',
+                type: 'success',
+                isLoading: false,
+                autoClose: 3000
+            });
+
+            // Perform any additional login-related actions
+            onLogin(userData);
+            navigate('/dashboard/courses');
+
+            // Close the modal using Bootstrap's JavaScript API
+            const modal = document.getElementById('loginModal');
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
             bootstrapModal.hide();
 
+            // Clear form fields
             setEmail('');
             setPassword('');
-        } else {
-            toast.error('User does not exist or incorrect credentials. Please sign up.');
-            setEmail('');
-            setPassword('')
-        }
+        });
     };
+
+
+
     return (
         <>
-            <button className="btn btn-danger mx-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</button>
-            {/* <div className={`modal fade ${isLoginModalOpen ? 'show': ''}`} id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" style={{display: isLoginModalOpen ? 'block' : 'none'}}> */}
-            <div className={`modal fade`} id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel">
-            <ToastContainer autoClose={1000}/>
+            <button className="btn btn-danger mx-2" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <div className="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <ToastContainer autoClose={1000} />
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Login</h1>
+                            <h1 className="modal-title fs-5" id="loginModalLabel">Login</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <label htmlFor="name" className="form-label">Name</label>
+                                    <input type="name" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                                    <input type="password" className="form-control" id="exampleInputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <label htmlFor="email" className="form-label">Email address</label>
+                                    <input type="email" className="form-control" id="email2" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input type="password" className="form-control" id="password2" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
                                 <button type="submit" className="btn btn-primary">Login</button>
                             </form>
@@ -68,7 +91,7 @@ const Login = ({ onLogin }) => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

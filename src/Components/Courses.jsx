@@ -5,7 +5,7 @@ const Courses = ({data}) => {
     const navigate = useNavigate();
 
     const handleNavigate = (course)=>{
-        navigate(`/courses/${course.id}`, {state: {course}})
+        navigate(`/dashboard/courses/${course.id}`, {state: {course}})
     }
     return (
         <section className='courses-section'>

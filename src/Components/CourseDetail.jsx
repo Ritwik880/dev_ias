@@ -38,7 +38,7 @@ const CourseDetail = () => {
                     </h2>
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><Link to="/courses">My Courses</Link></li>
+                            <li className="breadcrumb-item"><Link to="/dashboard/courses">My Courses</Link></li>
                             <li className="breadcrumb-item"><Link to="">{course.title}</Link></li>
                         </ol>
                     </nav>

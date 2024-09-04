@@ -1,30 +1,34 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import Login from './Login';
-import Signup from './Signup';
 import { Link, useNavigate } from 'react-router-dom';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
+
 const Navbar = () => {
-    const navigate = useNavigate()
-    const [login, setLogin] = useState(false)
-    const [user, setUser] = useState(undefined);
+    const navigate = useNavigate();
+    const [login, setLogin] = useState(isLoggedIn());
+    const [user, setUser] = useState(getCurrentUserDetail());
 
     useEffect(() => {
-      setLogin(isLoggedIn());
-      setUser(getCurrentUserDetail())
-    }, [login])
-    
+        if (login) {
+            setUser(getCurrentUserDetail());
+        } else {
+            setUser(undefined);
+        }
+    }, [login]);
 
     const handleLogin = (userData) => {
         setUser(userData);
+        setLogin(true);
     };
 
     const handleLogout = () => {
-        // setUser(null);
-        doLogout(()=>{
+        doLogout(() => {
             setLogin(false);
-            navigate('/')
-        })
+            setUser(undefined);
+            navigate('/');
+        });
     };
+
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container">
@@ -53,21 +57,19 @@ const Navbar = () => {
                     <div>
                         {login ? (
                             <>
-                                <span className='username'>Welcome, {user.name}!</span>
+                                <span className='username'>Welcome, {user?.name}!</span>
                                 <button className="btn btn-danger mx-2" onClick={handleLogout}>Logout</button>
                             </>
                         ) : (
                             <>
                                 <Login onLogin={handleLogin} />
-                                <Signup />
                             </>
                         )}
                     </div>
-
                 </div>
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
