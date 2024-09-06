@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
+
+
 import { doLogin } from '../auth';
+
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 const Login = ({ onLogin }) => {
+    const [activeTab, setActiveTab] = useState('home');
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
     const [errors, setErrors] = useState({
         email: '',
         name: '',
         password: '',
     });
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
+
+    const handlePhoneChange = (value) => {
+        setPhone(value);
+        if (value.length > 12) {
+            setErrors('Phone number cannot exceed 10 digits.');
+        } else {
+            setErrors('');
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -54,15 +75,11 @@ const Login = ({ onLogin }) => {
             password: password,
         };
 
-        // Show a loading toast while the login process is ongoing
         const toastId = toast.loading('Logging in...');
 
-        // Perform login
         doLogin(userData, () => {
-            // Store user data in localStorage
             localStorage.setItem('user', JSON.stringify(userData));
 
-            // Update toast message on success
             toast.update(toastId, {
                 render: 'Login successful!',
                 type: 'success',
@@ -70,19 +87,15 @@ const Login = ({ onLogin }) => {
                 autoClose: 3000
             });
 
-            // Perform any additional login-related actions
             onLogin(userData);
-            // navigate('/dashboard/courses');
             toast.success('Login successfull!')
 
-            // Close the modal using Bootstrap's JavaScript API
             const modal = document.getElementById('loginModal');
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
             bootstrapModal.hide();
 
             window.location.reload();
 
-            // Clear form fields
             setEmail('');
             setPassword('');
         });
@@ -92,37 +105,67 @@ const Login = ({ onLogin }) => {
 
     return (
         <>
-            <button className="btn btn-danger login-btn" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button className="common-color user-login common-padding" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
             <div className="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <ToastContainer autoClose={1000} />
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="loginModalLabel">Login</h1>
+                            <ul class="nav nav-tabs" style={{ gap: '4px' }}>
+                                <li class="login_li"><button data-toggle="tab" className={`login_tab ${activeTab === 'home' ? 'active' : ''}`}
+                                    onClick={() => handleTabClick('home')}>Using
+                                    OTP</button></li> &nbsp;
+                                <li class="login_li"><button data-toggle="tab" className={`login_tab ${activeTab === 'menu1' ? 'active' : ''}`}
+                                    onClick={() => handleTabClick('menu1')}>Using
+                                    Password</button></li>
+                            </ul>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
                         <div className="modal-body">
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="name" className="form-label">Name<span className='error'>*</span></label>
-                                    <input type="name" className="form-control" id="name" value={name} onChange={(e) => { setName(e.target.value); setErrors({ ...errors, name: '' }); }} />
-                                    {errors.name && <span className='error'>{errors.name}</span>}
+                            <div class="tab-content">
+                                <div id="home" className={`tab-pane ${activeTab === 'home' ? 'active' : ''}`}>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="mb-3">
+                                            <label htmlFor="phone" className="form-label">Phone Number<span className='error'>*</span></label>
+                                            <PhoneInput
+                                                country={'in'}
+                                                value={phone}
+                                                onChange={handlePhoneChange}
+                                                placeholder='Enter Your Mobile No'
+                                                disableDropdown={true}
+                                            />
+                                            {errors.phone && <span className='error'>{errors.phone}</span>}
 
+                                        </div>
+                                        <button type="submit" className="user-login common-login common-padding2">Get OTP</button>
+                                    </form>
                                 </div>
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">Email address<span className='error'>*</span></label>
-                                    <input type="email" className="form-control" id="email2" value={email} onChange={(e) => { setEmail(e.target.value); setErrors({ ...errors, email: '' }); }} />
-                                    {errors.email && <span className='error'>{errors.email}</span>}
+                                <div id="menu1" className={`tab-pane ${activeTab === 'menu1' ? 'active' : ''}`}>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="mb-3">
+                                            <label htmlFor="name" className="form-label">Name<span className='error'>*</span></label>
+                                            <input type="name" className="form-control" id="name" value={name} onChange={(e) => { setName(e.target.value); setErrors({ ...errors, name: '' }); }} placeholder="Enter Your Name" />
+                                            {errors.name && <span className='error'>{errors.name}</span>}
 
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">Password<span className='error'>*</span></label>
-                                    <input type="password" className="form-control" id="password2" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: '' }); }} />
-                                    {errors.password && <span className='error'>{errors.password}</span>}
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="email" className="form-label">Email address<span className='error'>*</span></label>
+                                            <input type="email" className="form-control" id="email2" value={email} onChange={(e) => { setEmail(e.target.value); setErrors({ ...errors, email: '' }); }} placeholder="Enter Your Email ID/Mobile" />
+                                            {errors.email && <span className='error'>{errors.email}</span>}
 
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="password" className="form-label">Password<span className='error'>*</span></label>
+                                            <input type="password" className="form-control" id="password2" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: '' }); }} placeholder="Enter Your Password" />
+                                            {errors.password && <span className='error'>{errors.password}</span>}
+
+                                        </div>
+                                        <button type="submit" className="user-login common-login common-padding2">Login</button>
+                                    </form>
                                 </div>
-                                <button type="submit" className="btn btn-primary">Login</button>
-                            </form>
+
+                            </div>
                         </div>
                     </div>
                 </div>
