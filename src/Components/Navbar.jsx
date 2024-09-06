@@ -29,6 +29,10 @@ const Navbar = () => {
         });
     };
 
+    const handleNavigate = () =>{
+        navigate('/dashboard/courses');
+    }
+
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container">
@@ -45,9 +49,6 @@ const Navbar = () => {
                             <Link className="nav-link" to="/">About Us</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/dashboard/courses">Courses</Link>
-                        </li>
-                        <li className="nav-item">
                             <Link className="nav-link" to="/">Services</Link>
                         </li>
                         <li className="nav-item">
@@ -56,10 +57,11 @@ const Navbar = () => {
                     </ul>
                     <div>
                         {login ? (
-                            <>
+                            <div className='account-header'>
                                 <span className='username'>Welcome, {user?.name}!</span>
-                                <button className="btn btn-danger mx-2" onClick={handleLogout}>Logout</button>
-                            </>
+                                <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                                <button className="btn btn-danger" onClick={handleNavigate}>My Account</button>
+                            </div>
                         ) : (
                             <>
                                 <Login onLogin={handleLogin} />

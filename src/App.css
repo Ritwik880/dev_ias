@@ -16,7 +16,20 @@
   background-color: rgb(59, 59, 152);
   height: 80px;
 }
-
+.login-btn{
+  font-weight: 600;
+}
+.account-header{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.account-header .myaccount{
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}
 .navbar .nav-item .nav-link,
 .navbar .navbar-brand {
   color: #fff;
@@ -189,7 +202,12 @@
 .container-ias {
   padding: 10px 0 50px 0;
 }
-
+.error{
+  color: red;
+}
+.form-label{
+  font-weight: 500;
+}
 @media screen and (max-width: 992px) {
   .toppers_ad_pc {
     display: none;
