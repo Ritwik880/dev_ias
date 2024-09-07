@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 //components
 import Home from './Components/Home'
@@ -17,8 +17,23 @@ import './Footer.css'
 
 //data
 import { COURSES as data } from './constants/data'
-import PrivateRoute from './Components/PrivateRoute'
+import PrivateRoute from './Components/PrivateRoute';
+
+import { auth } from './firebase'
 const App = () => {
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       console.log("User is logged in:", user);
+  //     } else {
+  //       console.log("No user is logged in.");
+  //     }
+  //   });
+  
+  //   return () => unsubscribe();
+  // }, []);
+  
   return (
     <>
       <Navbar />
