@@ -152,11 +152,11 @@ const Login = ({ onLogin }) => {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <ul class="nav nav-tabs" style={{ gap: '4px' }}>
-                                    <li class="login_li"><button data-toggle="tab" className={`login_tab ${activeTab === 'home' ? 'active' : ''}`}
+                                <ul className="nav nav-tabs" style={{ gap: '4px' }}>
+                                    <li className="login_li"><button data-toggle="tab" className={`login_tab ${activeTab === 'home' ? 'active' : ''}`}
                                         onClick={() => handleTabClick('home')}>Using
                                         OTP</button></li> &nbsp;
-                                    <li class="login_li"><button data-toggle="tab" className={`login_tab ${activeTab === 'menu1' ? 'active' : ''}`}
+                                    <li className="login_li"><button data-toggle="tab" className={`login_tab ${activeTab === 'menu1' ? 'active' : ''}`}
                                         onClick={() => handleTabClick('menu1')}>Using
                                         Password</button></li>
                                 </ul>
@@ -164,7 +164,7 @@ const Login = ({ onLogin }) => {
                             </div>
 
                             <div className="modal-body">
-                                <div class="tab-content">
+                                <div className="tab-content">
                                     <div id="home" className={`tab-pane ${activeTab === 'home' ? 'active' : ''}`}>
                                         {
                                             !isOtpSent ? (
