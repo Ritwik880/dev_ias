@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
+import Signup from './Signup';
 import { Link, useNavigate } from 'react-router-dom';
 import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
 
@@ -36,36 +37,34 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container">
-                <Link className="navbar-brand" to="/">IAS</Link>
+                <Link className="navbar-brand" to="/">Home</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/">Home</Link>
+                            <Link className="nav-link" to="/about">About Us</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">About Us</Link>
+                            <Link className="nav-link" to="/service">Services</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Services</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">Contact Us</Link>
+                            <Link className="nav-link" to="/contact">Contact Us</Link>
                         </li>
                     </ul>
                     <div>
                         {login ? (
                             <div className='account-header'>
-                                <span className='username'>Welcome, {user?.name}!</span>
+                                <span className='username'>Welcome, {user?.email}!</span>
                                 <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
                                 <button className="btn btn-danger" onClick={handleNavigate}>My Account</button>
                             </div>
                         ) : (
-                            <>
+                            <div className='auth-header'>
                                 <Login onLogin={handleLogin} />
-                            </>
+                                <Signup/>
+                            </div>
                         )}
                     </div>
                 </div>

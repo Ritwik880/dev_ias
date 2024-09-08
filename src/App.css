@@ -28,6 +28,13 @@
   gap: 10px;
 }
 
+.auth-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3px;
+}
+
 .account-header .myaccount {
   color: #fff;
   font-weight: 600;
@@ -256,6 +263,27 @@
   padding: 10px 30px;
 }
 
+.signup {
+  margin-left: 10px;
+}
+
+.react-tel-input .form-control {
+  width: 100%;
+  height: auto;
+}
+
+.common-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.common-section h1 {
+  font-size: 80px;
+  font-weight: 600;
+}
+
 @media screen and (max-width: 992px) {
   .toppers_ad_pc {
     display: none;
@@ -271,6 +299,10 @@
     height: 100%;
     position: relative;
     z-index: 2;
+  }
+
+  .modal-backdrop {
+    z-index: 1;
   }
 
   .course-heading {
@@ -322,6 +354,9 @@
     height: 100%;
     position: relative;
     z-index: 2;
+  }
+  .modal-backdrop {
+    z-index: 1;
   }
 
   .colFluidPadding {

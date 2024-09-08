@@ -18,27 +18,20 @@ import './Footer.css'
 //data
 import { COURSES as data } from './constants/data'
 import PrivateRoute from './Components/PrivateRoute';
+import About from './Components/Pages/About'
+import Service from './Components/Pages/Service'
+import Contact from './Components/Pages/Contact'
 
-import { auth } from './firebase'
 const App = () => {
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       console.log("User is logged in:", user);
-  //     } else {
-  //       console.log("No user is logged in.");
-  //     }
-  //   });
-  
-  //   return () => unsubscribe();
-  // }, []);
   
   return (
     <>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/service' element={<Service />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='/dashboard' element={<PrivateRoute />}>
           <Route path='courses' element={<Courses data={data} />} />
           <Route path="courses/:courseId" element={<CourseDetail data={data} />} />
