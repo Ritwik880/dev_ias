@@ -36,13 +36,13 @@ const Home = () => {
                     <div className="col-lg-4 col-md-4">
                         <div className="colFluidPadding">
                             <div className="stiker">
-                                <a href="https://iasscore.in/toppers-story">
+                                <a href="#">
                                     <img src="https://uploads.iasscore.in/banner/1716555021-toppers-story.webp" className="stickerImage" alt="UPSC IAS Toppers Story" />
                                 </a>
-                                <a href="https://iasscore.in/toppers-interview">
+                                <a href="#">
                                     <img src="https://uploads.iasscore.in/banner/1716555109-toppers-strategy.webp" className="stickerImage" alt="UPSC IAS Toppers Strategy" />
                                 </a>
-                                <a href="https://iasscore.in/toppers-copy">
+                                <a href="#">
                                     <img src="https://uploads.iasscore.in/banner/1716555247-toppers-copy.webp" className="stickerImage" alt="UPSC IAS Toppers Copy" />
                                 </a>
                             </div>
@@ -56,7 +56,7 @@ const Home = () => {
                         GS SCORE Courses
                     </h3>
                     <p className="aboutcoaching">
-                        We at GS SCORE provide <b>IAS coaching in Delhi</b>. We provide a <a href="https://iasscore.in/upsc-courses/ias-foundation" target="_blank"><b>1 Year and 2 Year UPSC Classroom Foundation course</b></a>. This <b>Classroom course</b> is a mix of informative and interactive classroom lectures, comprehensive study material and Test series in line with the demand of the exam. We cater to all the major <a href="https://iasscore.in/upsc-courses/optional" target="_blank"><b>Optional Subjects</b></a> in <b>online and offline</b> mode. Modular Courses have always been our strength especially in <a href="https://iasscore.in/upsc-courses/ethics-essay-class" target="_blank"><b>GS Paper IV and Essay Classes</b></a>. To provide all round development we provide <a href="https://iasscore.in/upsc-courses/tests" target="_blank"><b>Prelims, Mains and Optional Test series.</b></a>
+                        We at GS SCORE provide <b>IAS coaching in Delhi</b>. We provide a <a href="#" target="_blank"><b>1 Year and 2 Year UPSC Classroom Foundation course</b></a>. This <b>Classroom course</b> is a mix of informative and interactive classroom lectures, comprehensive study material and Test series in line with the demand of the exam. We cater to all the major <a href="#" target="_blank"><b>Optional Subjects</b></a> in <b>online and offline</b> mode. Modular Courses have always been our strength especially in <a href="#" target="_blank"><b>GS Paper IV and Essay Classes</b></a>. To provide all round development we provide <a href="#" target="_blank"><b>Prelims, Mains and Optional Test series.</b></a>
                     </p>
                     <div className="container-ias">
                         <div className="text-center toppers_ad_pc">

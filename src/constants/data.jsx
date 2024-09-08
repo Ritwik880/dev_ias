@@ -84,7 +84,7 @@ export const CARDS = [
         id: 1,
         img: 'https://uploads.iasscore.in/banner/1708514822-a0f12e3d-495b-4af1-9dea-d9adfc93663b.webp.webp',
         title: 'IAS 2025: Geography Optional Foundation',
-        btn1: 'Get Details',
+        btn1: 'Buy Now',
         btn2: 'Download Brochure',
         btnURL: '/upsc-courses/geography-foundation',
         btnURL2: 'https://uploads.iasscore.in/course-brochure/1719646880-GEOGRAPHY-FOUNDATION_NEW--1-.pdf'
@@ -93,7 +93,7 @@ export const CARDS = [
         id: 2,
         img: 'https://uploads.iasscore.in/banner/1708515466-a45d0414-2d10-42cc-a690-8c8db84b6bde.webp.webp',
         title: 'IAS 2025: Law Optional Foundation',
-        btn1: 'Get Details',
+        btn1: 'Buy Now',
         btn2: 'Download Brochure',
         btnURL: '/upsc-courses/geography-foundation',
         btnURL2: 'https://uploads.iasscore.in/course-brochure/1719646880-GEOGRAPHY-FOUNDATION_NEW--1-.pdf'
@@ -102,7 +102,7 @@ export const CARDS = [
         id: 3,
         img: 'https://uploads.iasscore.in/banner/1708514720-05bc007b-d20c-46fb-849c-089eefce97f9.webp.webp',
         title: 'IAS 2025: History Optional Foundation',
-        btn1: 'Get Details',
+        btn1: 'Buy Now',
         btn2: 'Download Brochure',
         btnURL: '/upsc-courses/geography-foundation',
         btnURL2: 'https://uploads.iasscore.in/course-brochure/1719646880-GEOGRAPHY-FOUNDATION_NEW--1-.pdf'

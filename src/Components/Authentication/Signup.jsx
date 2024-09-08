@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css';
-
-import { STATE as state } from '../../constants/data';
 
 import Select from 'react-select';
 
@@ -27,20 +26,23 @@ const Signup = () => {
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
     const [phone, setPhone] = useState("");
-    const [zip, setZip] = useState("");
+    const [zip, setZip] = useState(null);
+    const [options, setOptions] = useState([]);
+    const [cityOptions, setCityOptions] = useState([]);
+    const [pincodeOptions, setPincodeOptions] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [cityLoading, setCityLoading] = useState(false);
+    const [pincodeLoading, setPincodeLoading] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
         name: '',
         city: '',
-        zip: '',
         password: '',
     });
-
-    const options = state.map(state => ({ value: state.name, label: state.name }));
-
 
     const handlePhoneChange = (value) => {
         const phoneWithPlus = `+${value}`;
@@ -52,9 +54,78 @@ const Signup = () => {
         }
     };
 
-    const handleStateChange = (selectedOption) => {
+    const handleStateChange = async (selectedOption) => {
         setSelectedState(selectedOption);
+        if (selectedOption) {
+            await fetchCities(selectedOption.value);
+        }
     };
+
+    const fetchStates = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.post(`https://countriesnow.space/api/v0.1/countries/states`, {
+                country: "India",
+            });
+
+            const states = response.data.data.states;
+            const stateOptions = states.map((state) => ({ value: state.name, label: state.name }));
+
+            setOptions(stateOptions);
+            setLoading(false);
+
+        } catch (error) {
+            setLoading(false);
+            toast.error(error);
+            console.error(error);
+        }
+    };
+
+    const fetchCities = async (state) => {
+        setCityLoading(true);
+        try {
+            const response = await axios.post(`https://countriesnow.space/api/v0.1/countries/state/cities`, {
+                country: "India",
+                state: state,
+            });
+
+            const cities = response.data.data;
+            const cityOptions = cities.map((city) => ({ value: city, label: city }));
+
+            setCityOptions(cityOptions);
+            setCityLoading(false);
+
+        } catch (error) {
+            setCityLoading(false);
+            toast.error(error);
+            console.error(error);
+        }
+    };
+
+
+    const handleCityChange = async (selectedOption) => {
+        setSelectedCity(selectedOption);
+
+        if (selectedOption) {
+            await fetchRespectiveCityPincode(selectedOption.value);
+        }
+    };
+
+    const fetchRespectiveCityPincode = async (city) => {
+        setPincodeLoading(true);
+        try {
+            const response = await axios.get(`https://api.postalpincode.in/postoffice/${city}`);
+    
+            const pinCodes = response.data[0].PostOffice.map(post => ({ value: post.Pincode, label: post.Pincode }));
+            setPincodeOptions(pinCodes);
+            setPincodeLoading(false);
+        } catch (error) {
+            setPincodeLoading(false);
+            toast.error("Failed to fetch pincode.");
+            console.error(error);
+        }
+    };
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -66,7 +137,7 @@ const Signup = () => {
             return;
         }
 
-        if (name.trim() === '' || email.trim() === '' || phone.trim() === '' || city.trim() === '' || selectedState?.value.trim() === '' || zip.trim() === '' || password.trim() === '' || cPassword.trim() === '') {
+        if (name.trim() === '' || email.trim() === '' || phone.trim() === '' || password.trim() === '' || cPassword.trim() === '') {
             toast.error("Please fill all the fields!");
             return;
         }
@@ -81,23 +152,6 @@ const Signup = () => {
             newErrors.email = '';
         }
 
-        // City validation
-        const cityRegex = /^[A-Za-z\s]+$/;
-        if (!cityRegex.test(city)) {
-            newErrors.city = 'City must contain only letters and spaces.';
-        }
-        else {
-            newErrors.city = '';
-        }
-
-        // ZIP code validation (for US ZIP codes)
-        const zipRegex = /^[1-9][0-9]{5}$/;
-        if (!zipRegex.test(zip)) {
-            newErrors.zip = 'Invalid ZIP code format.';
-        }
-        else {
-            newErrors.zip = '';
-        }
 
         // Name validation (allow spaces)
         const nameRegex = /^[A-Za-z\s]+$/;
@@ -130,10 +184,10 @@ const Signup = () => {
             // Set additional user data
             const userData = {
                 name: name,
-                city: city,
+                city: selectedCity ? selectedCity.value : '',
                 state: selectedState ? selectedState.value : '',
                 phone: phone,
-                zip: zip,
+                zip: zip ? zip.value: '',
             };
 
             set(ref(db, 'users/' + uid), userData);
@@ -142,8 +196,6 @@ const Signup = () => {
 
             setName('');
             setEmail('');
-            setCity('');
-            setZip('');
             setPassword('');
             setCPassword('');
 
@@ -155,6 +207,11 @@ const Signup = () => {
             console.error('Error appending data:', error);
         }
     };
+
+    useEffect(() => {
+        fetchStates();
+    }, [])
+    
 
     return (
         <>
@@ -189,24 +246,22 @@ const Signup = () => {
                                             value={phone}
                                             onChange={handlePhoneChange}
                                             placeholder='Enter Your Mobile No'
-                                            disableDropdown={true}
+                                            // disableDropdown={true}
                                         />
                                     </div>
                                     <div className='col-lg-6 col-md-12 mb-3'>
                                         <label htmlFor="inputState" className="form-label">State<span className='error'>*</span></label>
-                                        <Select options={options} placeholder="Choose..." onChange={handleStateChange} />
+                                        <Select options={options} placeholder="Choose..." onChange={handleStateChange} value={selectedState} isLoading={loading}/>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className="col-lg-6 col-md-12 mb-3">
                                         <label htmlFor="city" className="form-label">City<span className='error'>*</span></label>
-                                        <input type="city" className="form-control" id="city" value={city} onChange={(e) => { setCity(e.target.value); setErrors({ ...errors, name: '' }); }} placeholder="Enter Your City" />
-                                        {errors.city && <span className='error'>{errors.city}</span>}
+                                        <Select options={cityOptions} placeholder="Choose..." isLoading={cityLoading} isDisabled={!selectedState} onChange={handleCityChange} value={selectedCity}/>
                                     </div>
                                     <div className='col-lg-6 col-md-12 mb-3'>
                                         <label htmlFor="inputZip" className="form-label">Zip<span className='error'>*</span></label>
-                                        <input type="text" className="form-control" id="inputZip" placeholder='828127' value={zip} onChange={(e) => { setZip(e.target.value); setErrors({ ...errors, name: '' }); }} />
-                                        {errors.zip && <span className='error'>{errors.zip}</span>}
+                                        <Select options={pincodeOptions} isDisabled={!selectedCity} placeholder="Choose..." isLoading={pincodeLoading}  value={zip} onChange={(value) => setZip(value)}/>
                                     </div>
 
                                 </div>
