@@ -283,7 +283,15 @@
   font-size: 80px;
   font-weight: 600;
 }
-
+.eye-btn{
+  background: transparent;
+  border: none;
+  position: absolute;
+  right: 20px;
+  top: 35px;
+  color: grey;
+  font-size: 18px;
+}
 @media screen and (max-width: 992px) {
   .toppers_ad_pc {
     display: none;

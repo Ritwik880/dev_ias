@@ -1,10 +1,13 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom'
-import Tabs from './Tabs';
-import Videos from './Sub_Courses/Videos';
-import Main_Tests from './Sub_Courses/Main_Tests';
-import E_Materials from './Sub_Courses/E_Materials';
-import { Link } from 'react-router-dom';
+import React from 'react';
+
+import { Link, useLocation } from 'react-router-dom'
+
+import Tabs from '../Tabs';
+
+import Videos from '../Sub_Courses/Videos';
+import Main_Tests from '../Sub_Courses/Main_Tests';
+import E_Materials from '../Sub_Courses/E_Materials';
+
 const CourseDetail = () => {
     const location = useLocation()
     const course = location.state?.course;

@@ -1,29 +1,30 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
 //components
-import Home from './Components/Home'
-import Footer from './Components/Footer'
-import Courses from './Components/Courses'
-import Navbar from './Components/Navbar'
-import CourseDetail from './Components/CourseDetail'
+
+import Navbar from './Components/Pages/Navbar'
+import Home from './Components/Pages/Home';
+import About from './Components/Pages/About'
+import Service from './Components/Pages/Service'
+import Contact from './Components/Pages/Contact'
+import Courses from './Components/Pages/Courses'
+import CourseDetail from './Components/Pages/CourseDetail'
+import Footer from './Components/Pages/Footer'
+import PrivateRoute from './Components/Authentication/PrivateRoute'
 
 //react-router
 import { Routes, Route } from 'react-router-dom'
 
 //css
-import './App.css'
-import './Footer.css'
+import './css/App.css';
+import './css/Footer.css';
 
 
 //data
 import { COURSES as data } from './constants/data'
-import PrivateRoute from './Components/PrivateRoute';
-import About from './Components/Pages/About'
-import Service from './Components/Pages/Service'
-import Contact from './Components/Pages/Contact'
 
 const App = () => {
-  
+
   return (
     <>
       <Navbar />

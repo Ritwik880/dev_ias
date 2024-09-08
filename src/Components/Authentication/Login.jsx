@@ -3,16 +3,18 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { app } from '../firebase';
+import { app } from '../../firebase';
 
-import { doLogin } from '../auth';
+import { doLogin } from '../../auth';
 
 const auth = getAuth(app);
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
         name: '',
@@ -53,12 +55,12 @@ const Login = ({ onLogin }) => {
                 signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             console.log(user);
+            toast.success('Login Successful');
 
             doLogin(user, () => {
                 onLogin(user);
             });
 
-            toast.success('Login Successful');
             setEmail('');
             setPassword('');
             const modal = document.getElementById('loginModal');
@@ -91,9 +93,16 @@ const Login = ({ onLogin }) => {
                                     {errors.email && <span className='error'>{errors.email}</span>}
 
                                 </div>
-                                <div className="mb-3">
+                                <div className="mb-3" style={{position: 'relative'}}>
                                     <label htmlFor="password" className="form-label">Password<span className='error'>*</span></label>
-                                    <input type="password" className="form-control" id="password2" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: '' }); }} placeholder="Enter Your Password" />
+                                    <input type={showPassword ? "text" : "password"} className="form-control" id="password2" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: '' }); }} placeholder="Enter Your Password" />
+                                    <button
+                                        type="button"
+                                        className="eye-btn"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
                                     {errors.password && <span className='error'>{errors.password}</span>}
 
                                 </div>

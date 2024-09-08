@@ -3,14 +3,15 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css';
 
-import { STATE as state } from '../constants/data';
+import { STATE as state } from '../../constants/data';
 
 import Select from 'react-select';
 
-import { app } from '../firebase';
+import { app } from '../../firebase';
 
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 const auth = getAuth(app);
@@ -28,6 +29,8 @@ const Signup = () => {
     const [phone, setPhone] = useState("");
     const [zip, setZip] = useState("");
     const [selectedState, setSelectedState] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
         name: '',
@@ -56,12 +59,14 @@ const Signup = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        let newErrors = { ...errors }
+
         if (password !== cPassword) {
             toast.error("Passwords do not match!");
             return;
         }
 
-        if (name.trim() == '' || email.trim() == '' || phone.trim() == '' || city.trim() == '' || selectedState.value.trim() == '' || zip.trim() == '' || password.trim() == '' || cPassword.trim() == '') {
+        if (name.trim() === '' || email.trim() === '' || phone.trim() === '' || city.trim() === '' || selectedState?.value.trim() === '' || zip.trim() === '' || password.trim() === '' || cPassword.trim() === '') {
             toast.error("Please fill all the fields!");
             return;
         }
@@ -70,39 +75,51 @@ const Signup = () => {
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            setErrors({ ...errors, email: 'Invalid email address.' });
-            return;
+            newErrors.email = 'Invalid email address.';
+        }
+        else {
+            newErrors.email = '';
         }
 
-        // 2. City validation
-        const cityRegex = /^[a-zA-Z0-9\s]+$/;
+        // City validation
+        const cityRegex = /^[A-Za-z\s]+$/;
         if (!cityRegex.test(city)) {
-            setErrors({ ...errors, city: 'Invalid city name.' });
-            return;
+            newErrors.city = 'City must contain only letters and spaces.';
+        }
+        else {
+            newErrors.city = '';
         }
 
-        // 3. ZIP code validation
-        const zipRegex = /^[0-9]{5}(?:-[0-9]{4})?$/;
+        // ZIP code validation (for US ZIP codes)
+        const zipRegex = /^[1-9][0-9]{5}$/;
         if (!zipRegex.test(zip)) {
-            setErrors({ ...errors, zip: 'Invalid ZIP code.' });
-            return;
+            newErrors.zip = 'Invalid ZIP code format.';
+        }
+        else {
+            newErrors.zip = '';
         }
 
         // Name validation (allow spaces)
         const nameRegex = /^[A-Za-z\s]+$/;
         if (!nameRegex.test(name)) {
-            setErrors({ ...errors, name: 'Name must contain only letters and spaces.' });
-            return;
+            newErrors.name = 'Name must contain only letters and spaces.';
+        }
+        else {
+            newErrors.name = '';
         }
 
         // Password validation (at least 8 characters, one uppercase, one lowercase, one number, one special character)
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (!passwordRegex.test(password)) {
-            setErrors({
-                ...errors,
-                password:
-                    'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-            });
+            newErrors.password = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character';
+        }
+        else {
+            newErrors.password = '';
+        }
+
+        setErrors(newErrors);
+
+        if (Object.values(newErrors).some(error => error !== '')) {
             return;
         }
 
@@ -188,19 +205,34 @@ const Signup = () => {
                                     </div>
                                     <div className='col-lg-6 col-md-12 mb-3'>
                                         <label htmlFor="inputZip" className="form-label">Zip<span className='error'>*</span></label>
-                                        <input type="text" className="form-control" id="inputZip" placeholder='828127' value={zip} onChange={(e) => { setZip(e.target.value); setErrors({ ...errors, name: '' }); }} inputMode="numeric" />
+                                        <input type="text" className="form-control" id="inputZip" placeholder='828127' value={zip} onChange={(e) => { setZip(e.target.value); setErrors({ ...errors, name: '' }); }} />
                                         {errors.zip && <span className='error'>{errors.zip}</span>}
                                     </div>
+
                                 </div>
                                 <div className='row'>
-                                    <div className="col-lg-6 col-md-12 mb-3">
+                                    <div className="col-lg-6 col-md-12 mb-3" style={{ position: 'relative' }}>
                                         <label htmlFor="password" className="form-label">Password<span className='error'>*</span></label>
-                                        <input type="password" className="form-control" id="password" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, name: '' }); }} placeholder="Enter Your Password" />
+                                        <input type={showPassword ? "text" : "password"} className="form-control" id="password" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, name: '' }); }} placeholder="Enter Your Password" />
+                                        <button
+                                            type="button"
+                                            className="eye-btn"
+                                            onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Eye icon */}
+                                        </button>
                                         {errors.password && <span className='error'>{errors.password}</span>}
                                     </div>
-                                    <div className="col-lg-6 col-md-12 mb-3">
+                                    <div className="col-lg-6 col-md-12 mb-3" style={{ position: 'relative' }}>
                                         <label htmlFor="confirmPassword" className="form-label">Confirm Password<span className='error'>*</span></label>
-                                        <input type="password" className="form-control" id="confirmPassword" value={cPassword} onChange={(e) => { setCPassword(e.target.value); setErrors({ ...errors, name: '' }); }} placeholder="Enter Your Password" />
+                                        <input type={showConfirmPassword ? "text" : "password"} className="form-control" id="confirmPassword" value={cPassword} onChange={(e) => { setCPassword(e.target.value); setErrors({ ...errors, name: '' }); }} placeholder="Enter Your Password" />
+                                        <button
+                                            type="button"
+                                            className="eye-btn"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle showPassword state
+                                        >
+                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />} {/* Eye icon */}
+                                        </button>
                                         {errors.password && <span className='error'>{errors.password}</span>}
                                     </div>
                                 </div>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Login from './Login';
-import Signup from './Signup';
+
+import Login from '../Authentication/Login';
+import Signup from '../Authentication/Signup';
+
 import { Link, useNavigate } from 'react-router-dom';
-import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
+import { doLogout, getCurrentUserDetail, isLoggedIn } from '../../auth';
 
 const Navbar = () => {
     const navigate = useNavigate();

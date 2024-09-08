@@ -1,5 +1,5 @@
 import React from 'react'
-import { CARDS as data } from '../constants/data'
+import { CARDS as data } from '../../constants/data'
 const Home = () => {
     return (
         <>
