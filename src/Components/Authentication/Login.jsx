@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
+//firebase
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../../firebase';
 
-import { doLogin } from '../../auth';
+//redux
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/authSlice';
 
 const auth = getAuth(app);
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -54,18 +58,19 @@ const Login = ({ onLogin }) => {
             const userCredential = await
                 signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log(user);
-            toast.success('Login Successful');
+            const userData = {
+                accessToken: user.accessToken,
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+            };
 
-            doLogin(user, () => {
-                onLogin(user);
-            });
+            toast.success('Login Successful');
+            dispatch(setUser(userData));
 
             setEmail('');
             setPassword('');
-            const modal = document.getElementById('loginModal');
-            const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            bootstrapModal.hide();
+
             window.location.reload();
         } catch (error) {
             toast.error(error.message);
@@ -75,7 +80,6 @@ const Login = ({ onLogin }) => {
 
     return (
         <>
-            <ToastContainer autoClose={1000} />
             <button className="common-color user-login common-padding" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
             <div className="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
@@ -93,7 +97,7 @@ const Login = ({ onLogin }) => {
                                     {errors.email && <span className='error'>{errors.email}</span>}
 
                                 </div>
-                                <div className="mb-3" style={{position: 'relative'}}>
+                                <div className="mb-3" style={{ position: 'relative' }}>
                                     <label htmlFor="password" className="form-label">Password<span className='error'>*</span></label>
                                     <input type={showPassword ? "text" : "password"} className="form-control" id="password2" value={password} onChange={(e) => { setPassword(e.target.value); setErrors({ ...errors, password: '' }); }} placeholder="Enter Your Password" />
                                     <button

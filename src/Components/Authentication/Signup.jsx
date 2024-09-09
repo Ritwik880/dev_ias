@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import PhoneInput from 'react-phone-input-2'
@@ -22,7 +21,6 @@ const db = getDatabase(app);
 const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [city, setCity] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
     const [phone, setPhone] = useState("");
@@ -215,7 +213,6 @@ const Signup = () => {
 
     return (
         <>
-            <ToastContainer autoClose={1000} />
             <button className="common-color user-login common-padding signup" type="button" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
             <div className="modal fade" id="signupModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg">
