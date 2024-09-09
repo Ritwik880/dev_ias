@@ -366,6 +366,9 @@
   .scheduled-classes {
     margin-bottom: 20px;
   }
+  .auth-header{
+    justify-content: flex-start;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -394,5 +397,8 @@
   .scheduled-classes {
     height: auto;
     margin-bottom: 15px;
+  }
+  .auth-header{
+    justify-content: flex-start;
   }
 }

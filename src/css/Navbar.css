@@ -1,4 +1,4 @@
-.navbar {
+/* .navbar {
     background-color: rgb(59, 59, 152);
     height: 80px;
     display: flex;
@@ -70,7 +70,7 @@
     align-items: center;
 }
 
-/* span {
+span {
     margin-left: 16px;
     font-size: 22px;
     color: #fff;
