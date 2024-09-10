@@ -369,6 +369,10 @@
   .auth-header{
     justify-content: flex-start;
   }
+  .account-header{
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -400,5 +404,9 @@
   }
   .auth-header{
     justify-content: flex-start;
+  }
+  .account-header{
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

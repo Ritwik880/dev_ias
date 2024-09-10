@@ -16,7 +16,6 @@ import { getAuth, signOut } from 'firebase/auth';
 
 //toast
 import { toast } from 'react-toastify';
-import { LoadingButton } from '@mui/lab';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -65,7 +64,7 @@ const Navbar = () => {
                                 <Link className="nav-link" to="/contact">Contact Us</Link>
                             </li>
                         </ul>
-                        <div>
+                        <>
                             {isLoggedIn ? (
                                 <div className='account-header'>
                                     <span className='username'>Welcome, {user.email}!</span>
@@ -78,7 +77,7 @@ const Navbar = () => {
                                     <Signup />
                                 </div>
                             )}
-                        </div>
+                        </>
                     </div>
                 </div>
             </nav>

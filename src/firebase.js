@@ -25,7 +25,9 @@ onAuthStateChanged(auth, (user) => {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-    }    
+    }
+    console.log(userData);
+      
     store.dispatch(setUser(userData))
   }
   else {
