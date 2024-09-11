@@ -10,7 +10,6 @@ import { app } from '../../firebase';
 
 //redux
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/authSlice';
 import { logIn } from '../../redux/authSlice';
 
 
@@ -96,10 +95,6 @@ const Login = () => {
             setEmail('');
             setPassword('');
             setOpen(false);
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         } catch (error) {
             toast.error(error.message);
             console.error('Login failed:', error);

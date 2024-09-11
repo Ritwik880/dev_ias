@@ -230,12 +230,11 @@ const Signup = () => {
 
             await signOut(auth);
 
-            toast.info("Please log in to continue.");
+            setTimeout(() => {
+                toast.info("Please log in to continue.");
+            }, 500);
 
             setOpen(false);
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         } catch (error) {
             toast.error(error.message);
             console.error('Error appending data:', error);
@@ -333,9 +332,9 @@ const Signup = () => {
                                 <button
                                     type="button"
                                     className="eye-btn"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle showPassword state
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                 >
-                                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />} {/* Eye icon */}
+                                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                                 {errors.password && <span className='error'>{errors.password}</span>}
                             </div>

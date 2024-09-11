@@ -30,14 +30,15 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setUser: (state, action) =>{
+        setUser: (state, action) => {
             state.user = action.payload;
             state.isLoggedIn = true;
+            localStorage.setItem('userUID', action.payload.uid);
         },
-        clearUser: (state) =>{
+        clearUser: (state) => {
             state.user = null;
             state.isLoggedIn = false;
-            // localStorage.removeItem('cartItems');
+            localStorage.removeItem('userUID');
         }
     }
 
@@ -47,36 +48,47 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addToCart: (state, action) =>{
+        addToCart: (state, action) => {
             state.cartItems.push(action.payload)
-            localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+            const userUID = localStorage.getItem('userUID');
+            if (userUID) {
+                localStorage.setItem(`cart_${userUID}`, JSON.stringify(state.cartItems));
+            }
         },
-        removeFromCart: (state, action) =>{
+        removeFromCart: (state, action) => {
             state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
-            // saveCartToLocalStorage(state);
+            const userUID = localStorage.getItem('userUID');
+            if (userUID) {
+                localStorage.setItem(`cart_${userUID}`, JSON.stringify(state.cartItems));
+            }
         },
-        clearCart: (state) =>{
+        clearCart: (state) => {
             state.cartItems = [];
-            // saveCartToLocalStorage(state);
+            const userUID = localStorage.getItem('userUID');
+            if (userUID) {
+                localStorage.removeItem(`cart_${userUID}`);
+            }
         },
-        loadCart: (state) =>{
-            state.cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        loadCart: (state, action) => {
+            const savedCart = action.payload;
+            state.cartItems = savedCart;
         }
     }
 })
-export const {setUser, clearUser} = authSlice.actions;
+export const { setUser, clearUser } = authSlice.actions;
 
 export const logIn = (user) => (dispatch) => {
     dispatch(setUser(user));
-    dispatch(loadCart()); 
+    const savedCart = JSON.parse(localStorage.getItem(`cart_${user.uid}`)) || [];
+    dispatch(loadCart(savedCart));
 };
 
 export const logOut = () => (dispatch) => {
     dispatch(clearUser());
-    dispatch(clearCart()); 
+    dispatch(clearCart());
 };
 
 export const authReducer = authSlice.reducer;
 export const cartReducer = cartSlice.reducer;
 
-export const {addToCart, removeFromCart, clearCart,loadCart} = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, loadCart } = cartSlice.actions;
