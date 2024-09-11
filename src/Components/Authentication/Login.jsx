@@ -11,6 +11,7 @@ import { app } from '../../firebase';
 //redux
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/authSlice';
+import { logIn } from '../../redux/authSlice';
 
 
 //mui
@@ -90,7 +91,7 @@ const Login = () => {
             };
 
             toast.success('Login Successful');
-            dispatch(setUser(userData));
+            dispatch(logIn(userData));
 
             setEmail('');
             setPassword('');

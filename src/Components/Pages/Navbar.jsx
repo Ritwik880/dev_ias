@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../../redux/authSlice';
+import { logOut } from '../../redux/authSlice';
 
 //firebase
 import { getAuth, signOut } from 'firebase/auth';
@@ -34,7 +35,7 @@ const Navbar = () => {
         setLoading(true);
         try {
             await signOut(auth);
-            dispatch(clearUser());
+            dispatch(logOut());
             toast.success("User logged out successfully!");
             setLoading(false);
             navigate('/');
