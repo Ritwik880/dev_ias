@@ -34,6 +34,7 @@ import { setUser, clearUser } from './redux/authSlice';
 //colorRing
 import { ColorRing } from 'react-loader-spinner';
 import Nav2 from './Components/Pages/Nav2';
+import GoToCart from './Components/Pages/GoToCart';
 
 
 const App = () => {
@@ -85,6 +86,7 @@ const App = () => {
           <Route path='/about' element={<About />} />
           <Route path='/service' element={<Service />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='cart' element={<GoToCart />} />
           <Route path='/dashboard' element={<PrivateRoute />}>
             <Route path='courses' element={<Courses data={data} />} />
             <Route path="courses/:courseId" element={<CourseDetail data={data} />} />

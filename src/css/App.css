@@ -300,8 +300,141 @@
   align-items: center;
   height: 100vh;
 }
-.MuiLoadingButton-root.MuiLoadingButton-loading{
+
+.MuiLoadingButton-root.MuiLoadingButton-loading {
   text-transform: lowercase !important;
+}
+
+.shopping-cart {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 30px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.shopping-cart-item {
+  background: #dc3545;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  font-size: 15px;
+  width: 22px;
+  text-align: center;
+  right: -5px;
+  top: 3px;
+}
+
+.cart-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding: 100px 0;
+}
+
+.amount-total {
+  color: grey;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-size: 1.6rem;
+}
+
+.price-total {
+  font-weight: 700;
+  display: block;
+  font-size: 35px;
+}
+
+.shopping-cart-heading {
+  font-size: 42px;
+  padding-bottom: 15px;
+  font-weight: 700;
+}
+
+.ud-btn {
+  position: relative;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  max-width: 100%;
+  min-width: 8rem;
+  padding: 1rem 1.2rem;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: bottom;
+  white-space: nowrap;
+  width: 100%;
+  background: #dc3545;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.dynamic-course-count {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-size: 1.6rem;
+}
+
+.add-to-cart-courses {
+  border: none;
+}
+
+.checkout-btn {
+  background: transparent;
+  border: none;
+  color: #dc3545;
+  font-weight: 600;
+  padding-bottom: 10px;
+}
+
+.checkout-cart-para {
+  margin-bottom: 10px;
+}
+
+.checkout-cart-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.checkout-cart-card-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 30%;
+}
+
+.price-tag {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.checkout-cart-img {
+  width: 150px;
+  object-fit: cover;
+}
+
+.checkout-cart-card-inner {
+  display: flex;
+  gap: 10px;
+}
+
+.card-header {
+  background: transparent;
+}
+.no-courses{
+  font-weight: 700;
+  font-size: 18px;
 }
 @media screen and (max-width: 992px) {
   .toppers_ad_pc {
@@ -366,13 +499,42 @@
   .scheduled-classes {
     margin-bottom: 20px;
   }
-  .auth-header{
+
+  .auth-header {
     justify-content: flex-start;
   }
-  .account-header{
+
+  .account-header {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .checkout-cart-card-inner,
+  .checkout-cart-card-body {
+    flex-direction: column;
+  }
+  .checkout-cart-card-body{
+    gap: 10px;
+  }
+  .checkout-cart-card-btn {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .checkout-cart-img {
+    width: 100%;
+  }
+
+  .checkout-btn {
+    font-size: 20px;
+  }
+
+  .cart-section {
+    padding: 30px 0;
+  }
+
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -402,10 +564,12 @@
     height: auto;
     margin-bottom: 15px;
   }
-  .auth-header{
+
+  .auth-header {
     justify-content: flex-start;
   }
-  .account-header{
+
+  .account-header {
     flex-direction: column;
     align-items: flex-start;
   }

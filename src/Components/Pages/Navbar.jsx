@@ -17,13 +17,17 @@ import { getAuth, signOut } from 'firebase/auth';
 //toast
 import { toast } from 'react-toastify';
 
+//mui
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
     const user = useSelector((state) => state.auth.user);
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const cartItems = useSelector((state) => state.cart.cartItems);
 
     const handleLogout = async () => {
         const auth = getAuth();
@@ -43,6 +47,14 @@ const Navbar = () => {
     const handleNavigate = () => {
         navigate('/dashboard/courses');
     }
+
+    const handleGoToCart = (id) => {
+        if (!isLoggedIn) {
+            toast.error('You are not logged in. Please log in to proceed with the purchase.');
+        } else {
+            navigate('/cart')
+        }
+    };
 
     return (
         <>
@@ -65,6 +77,12 @@ const Navbar = () => {
                             </li>
                         </ul>
                         <>
+                            <button className='shopping-cart' onClick={handleGoToCart}>
+                                <span className='shopping-cart-item'>
+                                    {cartItems ? cartItems.length : 0}
+                                </span>
+                                <ShoppingCartIcon fontSize='30px'/>
+                            </button>
                             {isLoggedIn ? (
                                 <div className='account-header'>
                                     <span className='username'>Welcome, {user.email}!</span>

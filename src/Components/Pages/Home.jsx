@@ -1,6 +1,46 @@
-import React from 'react'
-import { CARDS as data } from '../../constants/data'
+import React from 'react';
+
+import { toast } from 'react-toastify';
+import { CARDS as data } from '../../constants/data';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const cartItems = useSelector((state) => state.cart.cartItems);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (id) => {
+        if (!isLoggedIn) {
+            toast.error('You are not logged in. Please log in to proceed with the purchase.');
+        } else {
+            const courseToBuy = data.find(course => course.id === id);
+            console.log(courseToBuy);
+
+            const isCourseInCart = cartItems.some(cartItem => cartItem.id === id);
+
+            if (isCourseInCart) {
+                toast.info('Course already in cart. Redirecting to cart...');
+
+                setTimeout(() => {
+                    navigate('/cart')
+                }, 1000);
+            }
+            else {
+                if (courseToBuy) {
+                    dispatch(addToCart(courseToBuy));
+                    console.log('Proceeding with course purchase...');
+                    toast.success('Course added successfully!');
+                } else {
+                    toast.error('Course not found!');
+                    console.error('Course not found:', id);
+                }
+            }
+
+        }
+    };
     return (
         <>
             <section className='banner'>
@@ -56,7 +96,7 @@ const Home = () => {
                         GS SCORE Courses
                     </h3>
                     <p className="aboutcoaching">
-                        We at GS SCORE provide <b>IAS coaching in Delhi</b>. We provide a <a href="#" target="_blank"><b>1 Year and 2 Year UPSC Classroom Foundation course</b></a>. This <b>Classroom course</b> is a mix of informative and interactive classroom lectures, comprehensive study material and Test series in line with the demand of the exam. We cater to all the major <a href="#" target="_blank"><b>Optional Subjects</b></a> in <b>online and offline</b> mode. Modular Courses have always been our strength especially in <a href="#" target="_blank"><b>GS Paper IV and Essay Classes</b></a>. To provide all round development we provide <a href="#" target="_blank"><b>Prelims, Mains and Optional Test series.</b></a>
+                        We at <b>COACHING NAME</b> provide TEST SERIES ONLINE. We provide test series for <b>NEET, JEE (MAINS & ADVANCE) & OTHER EXAMS LIKE WBJEE, COMED-K AND SO ON</b>. These test series are mix of informative and interactive mentorship, comprehensive study material and Tests in line with the demand of the exam. Modular Courses have always been our strength especially in <b>NEET AND JEE exams</b>. To provide all round development we provide 2 types of test series  - <b>one for mocks</b> during just before examination and other for <b>complete preparation through test series chapter wise</b>, subject wise and including mocks.
                     </p>
                     <div className="container-ias">
                         <div className="text-center toppers_ad_pc">
@@ -69,6 +109,7 @@ const Home = () => {
                     <div className='row'>
                         {
                             data && data.map((item) => {
+                                const isCourseInCart = cartItems.some(cartItem => cartItem.id === item.id)
                                 return (
                                     <div className='col-lg-4 col-md-12' key={item.id}>
                                         <div className="card scheduled-classes">
@@ -79,10 +120,10 @@ const Home = () => {
                                                     {item.title}
                                                 </h5>
                                                 <div className="course_btn">
-                                                    <a href={item.btnURL} className="btn btn-danger">
-                                                        {item.btn1}
-                                                    </a>
-                                                    <a className="btn btn-outline-danger ml-1 font-16" href={item.btnURL2} target="_blank"><i className="fa fa-download"></i> {item.btn2}</a>
+                                                    <button className={`btn ${isCourseInCart ? 'btn-outline-primary' : 'btn-danger'}`} onClick={() => handleAddToCart(item.id)}>
+                                                        {isCourseInCart ? 'Go to Cart' : 'Add to Cart'}
+                                                    </button>
+                                                    <span className='price-tag'>{item.price}</span>
                                                 </div>
                                             </div>
                                         </div>
