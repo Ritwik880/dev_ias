@@ -26,22 +26,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import { COURSES as data } from './constants/data';
 
 //redux
-import { useDispatch } from 'react-redux';
-import { loadCart, clearCart } from './redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCartFromRTDB, clearCartAndSync } from './redux/authSlice';
 
 
 const App = () => {
+
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const userUID = localStorage.getItem('userUID');
-    if (userUID) {
-      dispatch(loadCart(userUID));
+    if (user && user.uid) {
+      dispatch(fetchCartFromRTDB(user.uid));
     } else {
-      dispatch(clearCart());
+      dispatch(clearCartAndSync());
     }
-  }, [dispatch]);
-
+  }, [user, dispatch]);
 
   return (
     <>

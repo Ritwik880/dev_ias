@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getDatabase, ref, set, get } from "firebase/database";
+import { app } from '../firebase';
+
+const db = getDatabase(app);
 
 const initialState = {
     user: null,
-    cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
+    cartItems: [],
     isLoggedIn: false
 }
 
-
+//redux auth slice
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -25,54 +29,69 @@ const authSlice = createSlice({
 
 })
 
+//redux cart slice
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            state.cartItems.push(action.payload)
-            const userUID = localStorage.getItem('userUID');
-            console.log('I am from addtocart');
-            console.log(state);
-            
-            if (userUID) {
-                localStorage.setItem(`cart_${userUID}`, JSON.stringify(state.cartItems));
-            }
+            state.cartItems.push(action.payload);
         },
         removeFromCart: (state, action) => {
             state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
-            const userUID = localStorage.getItem('userUID');
-            console.log('I am from removeFromCart');
-            console.log(state);
-            
-            if (userUID) {
-                localStorage.setItem(`cart_${userUID}`, JSON.stringify(state.cartItems));
-            }
         },
         clearCart: (state) => {
             state.cartItems = [];
-            const userUID = localStorage.getItem('userUID');
-            console.log('I am from clearCart');
-            console.log(state);
-            
-            if (userUID) {
-                localStorage.removeItem(`cart_${userUID}`);
-            }
         },
         loadCart: (state, action) => {
-            console.log('I am from loadCart');
-            console.log(state);
-            state.cartItems = Array.isArray(action.payload) ? action.payload : [];
+            state.cartItems = action.payload;
         }
     }
-})
+});
+
+export const fetchCartFromRTDB = (uid) => async (dispatch) => {
+    const cartRef = ref(db, `users/${uid}/cart`);
+    const cartSnapshot = await get(cartRef);
+    if (cartSnapshot.exists()) {
+        dispatch(loadCart(cartSnapshot.val()));
+    } else {
+        await set(cartRef, []);
+        dispatch(loadCart([]));
+    }
+};
+// add to cart logic
+export const addToCartAndSync = (uid, item) => async (dispatch) => {
+    const cartRef = ref(db, `users/${uid}/cart`);
+    dispatch(addToCart(item));
+    const currentCart = await get(cartRef);
+    const updatedCart = currentCart.exists() ? [...currentCart.val(), item] : [item];
+    await set(cartRef, updatedCart);
+};
+
+// remove cart data logic
+export const removeFromCartAndSync = (uid, itemId) => async (dispatch) => {
+    const cartRef = ref(db, `users/${uid}/cart`);
+    const currentCart = await get(cartRef);
+    if (currentCart.exists()) {
+        const updatedCart = currentCart.val().filter(item => item.id !== itemId);
+        await set(cartRef, updatedCart);
+        dispatch(removeFromCart(itemId));
+    }
+};
+
+// clear cart data logic
+export const clearCartAndSync = (uid) => async (dispatch) => {
+    const cartRef = ref(db, `users/${uid}/cart`);
+    await set(cartRef, []);
+    dispatch(clearCart());
+};
+
+
 export const { setUser, clearUser } = authSlice.actions;
 
-export const logIn = (userData) => (dispatch) => {
+export const logIn = (userData) => async (dispatch) => {
     dispatch(setUser(userData));
-    const savedCart = JSON.parse(localStorage.getItem(`cart_${userData.uid}`)) || [];
-    localStorage.setItem(`cart_${userData.uid}`, JSON.stringify(savedCart));
-    dispatch(loadCart(savedCart));
+    await dispatch(fetchCartFromRTDB(userData.uid));
 };
 
 export const logOut = () => (dispatch) => {

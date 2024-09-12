@@ -1,8 +1,11 @@
 import React from 'react'
+
+//redux
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart } from '../../redux/authSlice';
+import { removeFromCartAndSync } from '../../redux/authSlice';
 const GoToCart = () => {
 
+  const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.cartItems);
   console.log(cartItems);
 
@@ -16,8 +19,9 @@ const GoToCart = () => {
   const dispatch = useDispatch();
 
   const handleRemoveProduct = (id) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCartAndSync(user.uid, id));
   }
+  
   return (
     <section className='cart-section'>
       <div className='row container'>

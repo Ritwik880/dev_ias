@@ -1,13 +1,21 @@
 import React from 'react';
 
+//toast
 import { toast } from 'react-toastify';
+
+//constant
 import { CARDS as data } from '../../constants/data';
+
+//redux
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../redux/authSlice';
+import { addToCartAndSync } from '../../redux/authSlice';
+
+//react-router-dom
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const { isLoggedIn } = useSelector((state) => state.auth);
+    const user = useSelector((state) => state.auth.user);
     const cartItems = useSelector((state) => state.cart.cartItems);
     console.log(cartItems);
     
@@ -32,7 +40,7 @@ const Home = () => {
             }
             else {
                 if (courseToBuy) {
-                    dispatch(addToCart(courseToBuy));
+                    dispatch(addToCartAndSync(user.uid, courseToBuy));
                     console.log('Proceeding with course purchase...');
                     toast.success('Course added successfully!');
                 } else {

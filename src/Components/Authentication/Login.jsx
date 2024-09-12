@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
+//toast
 import { toast } from 'react-toastify';
 
+//react-icon
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 //firebase
