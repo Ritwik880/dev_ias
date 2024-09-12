@@ -62,8 +62,7 @@ const cartSlice = createSlice({
         loadCart: (state, action) => {
             console.log('I am from loadCart');
             console.log(state);
-            const savedCart = action.payload;
-            state.cartItems = savedCart;
+            state.cartItems = Array.isArray(action.payload) ? action.payload : [];
         }
     }
 })
@@ -72,6 +71,7 @@ export const { setUser, clearUser } = authSlice.actions;
 export const logIn = (userData) => (dispatch) => {
     dispatch(setUser(userData));
     const savedCart = JSON.parse(localStorage.getItem(`cart_${userData.uid}`)) || [];
+    localStorage.setItem(`cart_${userData.uid}`, JSON.stringify(savedCart));
     dispatch(loadCart(savedCart));
 };
 
