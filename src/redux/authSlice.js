@@ -1,24 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const loadCartFromLocalStorage = () =>{
-//     try {
-//         const save = localStorage.getItem('cartItems');
-//         return save ? JSON.parse(save) : [];
-//     } catch (error) {
-//         console.error('Could not load cart from localstorage', error);
-//         return [];
-//     }
-// }
-
-// const saveCartToLocalStorage = (state) =>{
-//     try {
-//         const save = JSON.stringify(state.cartItems);
-//         localStorage.setItem('cartItems', save);
-//     } catch (error) {
-//         console.error('Could not save cart to localstorage!', error);  
-//     }
-// }
-
 const initialState = {
     user: null,
     cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
@@ -51,6 +32,9 @@ const cartSlice = createSlice({
         addToCart: (state, action) => {
             state.cartItems.push(action.payload)
             const userUID = localStorage.getItem('userUID');
+            console.log('I am from addtocart');
+            console.log(state);
+            
             if (userUID) {
                 localStorage.setItem(`cart_${userUID}`, JSON.stringify(state.cartItems));
             }
@@ -58,6 +42,9 @@ const cartSlice = createSlice({
         removeFromCart: (state, action) => {
             state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
             const userUID = localStorage.getItem('userUID');
+            console.log('I am from removeFromCart');
+            console.log(state);
+            
             if (userUID) {
                 localStorage.setItem(`cart_${userUID}`, JSON.stringify(state.cartItems));
             }
@@ -65,11 +52,16 @@ const cartSlice = createSlice({
         clearCart: (state) => {
             state.cartItems = [];
             const userUID = localStorage.getItem('userUID');
+            console.log('I am from clearCart');
+            console.log(state);
+            
             if (userUID) {
                 localStorage.removeItem(`cart_${userUID}`);
             }
         },
         loadCart: (state, action) => {
+            console.log('I am from loadCart');
+            console.log(state);
             const savedCart = action.payload;
             state.cartItems = savedCart;
         }
@@ -77,9 +69,9 @@ const cartSlice = createSlice({
 })
 export const { setUser, clearUser } = authSlice.actions;
 
-export const logIn = (user) => (dispatch) => {
-    dispatch(setUser(user));
-    const savedCart = JSON.parse(localStorage.getItem(`cart_${user.uid}`)) || [];
+export const logIn = (userData) => (dispatch) => {
+    dispatch(setUser(userData));
+    const savedCart = JSON.parse(localStorage.getItem(`cart_${userData.uid}`)) || [];
     dispatch(loadCart(savedCart));
 };
 

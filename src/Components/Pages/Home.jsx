@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
     const { isLoggedIn } = useSelector((state) => state.auth);
     const cartItems = useSelector((state) => state.cart.cartItems);
+    console.log(cartItems);
+    
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
